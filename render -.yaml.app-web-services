@@ -1,0 +1,44 @@
+services:
+  # Backend API Service
+  - type: web
+    name: iAmSmartGate-PoC-Backend
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: TEST_MODE
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: DATABASE_URL
+        value: "sqlite:///iamsmartgate.db"
+
+  # Admin Console Service
+  - type: web
+    name: iAmSmartGate-PoC-Admin
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && gunicorn admin_console:app
+    envVars:
+      - key: DEBUG
+        value: "false"
+
+  # Gate Reader App (Static Site)
+  - type: web
+    name: iAmSmartGate-PoC-Gate
+    runtime: python
+    buildCommand: echo "Static site - no build needed"
+    startCommand: cd gate-reader-app && python -m http.server $PORT
+
+  # User Wallet App (Static Site)
+  - type: web
+    name: iAmSmartGate-PoC-Wallet
+    runtime: python
+    buildCommand: echo "Static site - no build needed"
+    startCommand: cd user-wallet-app && python -m http.server $PORT

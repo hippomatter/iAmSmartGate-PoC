@@ -828,7 +828,7 @@ ADMIN_CONSOLE_HTML = """
     </div>
     
     <script>
-        const API_BASE = 'http://localhost:5000';
+        const API_BASE = 'https://iamsmartgate-backend.onrender.com';
         let currentTabScroll = 0;
         
         function scrollTabs(direction) {
@@ -1620,6 +1620,8 @@ def create_admin_app():
     
     return app
 
+# Create app instance for gunicorn
+app = create_admin_app()
+
 if __name__ == '__main__':
-    app = create_admin_app()
     app.run(host='0.0.0.0', port=5001, debug=True)
