@@ -591,7 +591,10 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-        const API_BASE = 'https://iamsmartgate-backend.onrender.com/api';
+        // Auto-detect localhost vs production
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? `http://${window.location.hostname}:5000/api`
+            : 'https://iamsmartgate-backend.onrender.com/api';
         const DEBUG_MODE = true; // Test/Debug mode
         
         let authToken = null;
@@ -927,6 +930,69 @@
             return btoa(binString);
         }
         
+        // Falcon API helper function
+        async function callFalconAPI(endpoint, method = 'POST', data = {}) {
+            const url = `https://${endpoint}-kez6dpnjlq-uc.a.run.app`;
+            try {
+                const options = {
+                    method: method,
+                    headers: method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}
+                };
+                
+                if (method === 'POST' && Object.keys(data).length > 0) {
+                    options.body = new URLSearchParams(data).toString();
+                }
+                
+                const response = await fetch(url, options);
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error(`Falcon API Error (${endpoint}):`, error);
+                throw error;
+            }
+        }
+        
+        // Generate FALCON-128 signature via API
+        async function generateFalconSignature(passId, timestamp) {
+            try {
+                const hsmConfig = {
+                    slot: '1654338351',
+                    pin: '1234',
+                    id: '0128600B',
+                    mechanism: 'ckm-icc-shake256-mm-falcon'
+                };
+                
+                // Create message with p and t fields
+                const message = JSON.stringify({ p: passId, t: timestamp });
+                
+                // Write message
+                await callFalconAPI('writemessage', 'POST', { message: message });
+                
+                // Hash message
+                await callFalconAPI('hashmessage', 'POST', {});
+                
+                // Sign hash
+                await callFalconAPI('signmessage', 'POST', {
+                    slot: hsmConfig.slot,
+                    pin: hsmConfig.pin,
+                    id: hsmConfig.id,
+                    mechanism: hsmConfig.mechanism
+                });
+                
+                // Read signature
+                const sigResult = await callFalconAPI('readsignature', 'GET', {});
+                
+                if (sigResult && sigResult.content) {
+                    return sigResult.content; // Returns hex signature
+                } else {
+                    throw new Error('No signature content received from Falcon API');
+                }
+            } catch (error) {
+                console.error('Error generating Falcon signature:', error);
+                throw error;
+            }
+        }
+        
         async function showQRCode(passId) {
             debugLog(`Generating QR for pass: ${passId}`);
             currentPass = passId;
@@ -953,23 +1019,44 @@
                 qrContainer.classList.remove('expired');
                 
                 try {
-                    // Parse payload and optimize signature encoding
+                    // Parse payload
                     const payload = JSON.parse(data.qr_payload);
-                    if (payload.s) {
-                        // Convert hex signature to base64 for compact encoding
-                        payload.s = hexToBase64(payload.s);
+                    const signatureMethod = data.signature_method || 'RSA-2048';
+                    
+                    let finalSignature;
+                    
+                    if (signatureMethod === 'FALCON-128') {
+                        // Generate FALCON-128 signature via API
+                        debugLog('Using FALCON-128 signature method');
+                        const falconSigHex = await generateFalconSignature(payload.p, payload.t);
+                        finalSignature = hexToBase64(falconSigHex);
+                    } else {
+                        // Use RSA-2048 signature from backend
+                        debugLog('Using RSA-2048 signature method');
+                        finalSignature = hexToBase64(payload.s);
                     }
+                    
+                    // Update payload with signature
+                    payload.s = finalSignature;
                     const optimizedPayload = JSON.stringify(payload);
                     
-                    new QRCode(qrContainer, {
+                    // Generate QR code with appropriate version
+                    const qrOptions = {
                         text: optimizedPayload,
                         width: 250,
                         height: 250,
                         colorDark: "#000000",
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.L  // Low (7%) - smallest QR code
-                    });
-                    debugLog(`QR code rendered successfully`);
+                    };
+                    
+                    // Force Version 26 for FALCON-128
+                    if (signatureMethod === 'FALCON-128') {
+                        qrOptions.version = 26;
+                    }
+                    
+                    new QRCode(qrContainer, qrOptions);
+                    debugLog(`QR code rendered successfully (${signatureMethod})`);
                 } catch (error) {
                     debugLog(`QR render error: ${error.message}`);
                     showError('qr-error', 'Failed to render QR code: ' + error.message);

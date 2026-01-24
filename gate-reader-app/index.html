@@ -493,7 +493,10 @@
     
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
     <script>
-        const API_BASE = 'https://iamsmartgate-backend.onrender.com/api';
+        // Auto-detect localhost vs production
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? `http://${window.location.hostname}:5000/api`
+            : 'https://iamsmartgate-backend.onrender.com/api';
         const DEBUG_MODE = true; // Test/Debug mode
         
         let authToken = null;
@@ -772,6 +775,7 @@
                 const data = await res.json();
                 
                 debugLog(`Scan result: ${data.result}`);
+                debugLog(`Signature method: ${data.signature_method || 'RSA-2048'}`);
                 
                 // Display result in centered box
                 const resultDisplay = document.getElementById('result-display');
@@ -781,7 +785,8 @@
                 
                 if (data.result === 'Pass') {
                     resultDisplay.className = 'result-box granted';
-                    resultDisplay.innerHTML = '<div class="result-emoji">✅</div><div class="result-text granted">ACCESS GRANTED</div>';
+                    const sigMethod = data.signature_method === 'FALCON-128' ? '🦅' : '🔒';
+                    resultDisplay.innerHTML = `<div class="result-emoji">✅</div><div class="result-text granted">ACCESS GRANTED ${sigMethod}</div>`;
                     container.className = 'container granted';
                     
                     detailsDiv.style.display = 'block';

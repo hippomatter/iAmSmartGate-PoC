@@ -58,6 +58,7 @@ class Pass(db.Model):
     visit_date_time = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(20), default='In Process')  # In Process/Pass/No Pass/Used/Revoked
     qr_signature = db.Column(db.Text)
+    signature_method = db.Column(db.String(20), default='FALCON-128')  # RSA-2048 or FALCON-128
     created_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     approved_timestamp = db.Column(db.DateTime)
     used_timestamp = db.Column(db.DateTime)
@@ -75,6 +76,7 @@ class Pass(db.Model):
             'visit_date_time': self.visit_date_time.isoformat() if self.visit_date_time else None,
             'status': self.status,
             'qr_signature': self.qr_signature,
+            'signature_method': self.signature_method,
             'created_timestamp': self.created_timestamp.isoformat() if self.created_timestamp else None,
             'approved_timestamp': self.approved_timestamp.isoformat() if self.approved_timestamp else None,
             'used_timestamp': self.used_timestamp.isoformat() if self.used_timestamp else None,
@@ -136,6 +138,9 @@ def init_db():
     
     if not SystemState.query.filter_by(key='site_pauses').first():
         db.session.add(SystemState(key='site_pauses', value=json.dumps({})))
+    
+    if not SystemState.query.filter_by(key='signature_method').first():
+        db.session.add(SystemState(key='signature_method', value='FALCON-128'))
     
     # Create test gates if not exist
     hsm = DummyHSM()

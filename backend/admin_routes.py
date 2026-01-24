@@ -54,7 +54,12 @@ def approve_pass(pass_id):
         if pass_obj.status != 'In Process':
             return jsonify({'error': f'Pass cannot be approved (status: {pass_obj.status})'}), 400
         
+        # Get current signature method from system state
+        sig_method_state = SystemState.query.filter_by(key='signature_method').first()
+        signature_method = sig_method_state.value if sig_method_state else 'FALCON-128'
+        
         pass_obj.status = 'Pass'
+        pass_obj.signature_method = signature_method
         pass_obj.approved_timestamp = datetime.utcnow()
         pass_obj.expiry_timestamp = datetime.utcnow() + timedelta(hours=expiry_hours)
         db.session.commit()
@@ -249,10 +254,12 @@ def system_status():
     try:
         global_pause = SystemState.query.filter_by(key='global_pause').first()
         site_pauses = SystemState.query.filter_by(key='site_pauses').first()
+        signature_method = SystemState.query.filter_by(key='signature_method').first()
         
         return jsonify({
             'global_pause': global_pause.value.lower() == 'true' if global_pause else False,
-            'site_pauses': json.loads(site_pauses.value) if site_pauses else {}
+            'site_pauses': json.loads(site_pauses.value) if site_pauses else {},
+            'signature_method': signature_method.value if signature_method else 'FALCON-128'
         }), 200
         
     except Exception as e:
@@ -446,4 +453,42 @@ def signature_logs():
         
     except Exception as e:
         logger.error(f"[HSM] Get signature logs error: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+@admin_bp.route('/set-signature-method', methods=['POST'])
+def set_signature_method():
+    """Set QR signature method (RSA-2048 or FALCON-128)"""
+    try:
+        data = request.json or {}
+        method = data.get('method', 'FALCON-128')
+        
+        if method not in ['RSA-2048', 'FALCON-128']:
+            return jsonify({'error': 'Invalid signature method. Must be RSA-2048 or FALCON-128'}), 400
+        
+        sig_method_state = SystemState.query.filter_by(key='signature_method').first()
+        if sig_method_state:
+            sig_method_state.value = method
+        else:
+            sig_method_state = SystemState(key='signature_method', value=method)
+            db.session.add(sig_method_state)
+        
+        db.session.commit()
+        
+        # Audit log
+        audit = AuditLog(
+            event_type='config_change',
+            result='SUCCESS',
+            details=f'QR signature method changed to {method}'
+        )
+        db.session.add(audit)
+        db.session.commit()
+        
+        logger.info(f"[ADMIN] Signature method changed to: {method}")
+        
+        return jsonify({
+            'message': f'Signature method set to {method}',
+            'method': method
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"[ADMIN] Set signature method error: {e}", exc_info=True)
         return jsonify({'error': str(e)}), 500

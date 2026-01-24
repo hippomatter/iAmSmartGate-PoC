@@ -3,6 +3,7 @@ Admin Console UI for iAmSmartGate
 Web-based admin interface
 """
 from flask import Flask, render_template_string, request, redirect, url_for
+from flask_cors import CORS
 import requests
 import json
 from datetime import datetime
@@ -597,7 +598,7 @@ ADMIN_CONSOLE_HTML = """
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
                 <div id="system-status-banner" class="system-status system-active">
-                    ✅ System Active
+                    ✅ Closed-Loop Security System Active
                 </div>
                 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
@@ -612,6 +613,14 @@ ADMIN_CONSOLE_HTML = """
                     <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 8px; text-align: center;">
                         <div style="font-weight: 600; margin-bottom: 5px;">Quantum-Safe SSL</div>
                         <div style="font-size: 1.2em; font-weight: bold;">🟢</div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 8px; letter-spacing: 1px;">🔐 QR SIGNATURE METHOD</div>
+                        <div id="dashboard-signature-method" style="font-size: 1.8em; font-weight: bold;">🦅 Quantum FALCON-128</div>
+                        <div id="post-quantum-text" style="font-size: 0.85em; opacity: 0.8; margin-top: 5px;">Post-Quantum Cryptography Enabled</div>
                     </div>
                 </div>
                 
@@ -676,6 +685,7 @@ ADMIN_CONSOLE_HTML = """
                                 <th>Site</th>
                                 <th>Purpose</th>
                                 <th>Status</th>
+                                <th>Signature</th>
                                 <th>Visit Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -699,6 +709,13 @@ ADMIN_CONSOLE_HTML = """
             <div id="control" class="tab-content">
                 <h2 style="margin-bottom: 20px;">System Control</h2>
                 
+                <h3 style="margin-bottom: 15px;">🔐 QR Code Signature Method</h3>
+                <div class="controls" style="margin-bottom: 30px;">
+                    <button class="btn" id="sig-rsa-btn" onclick="setSignatureMethod('RSA-2048')" style="background: #6b7280; color: white;">🔒 RSA-2048</button>
+                    <button class="btn" id="sig-falcon-btn" onclick="setSignatureMethod('FALCON-128')" style="background: #8b5cf6; color: white;">🦅 FALCON-128 (Quantum-Safe)</button>
+                </div>
+                
+                <h3 style="margin-bottom: 15px;">Access Control</h3>
                 <div class="controls">
                     <button class="btn btn-danger" onclick="pauseSystem(true)">⏸️ Pause All Access</button>
                     <button class="btn btn-success" onclick="pauseSystem(false)">▶️ Resume All Access</button>
@@ -785,8 +802,8 @@ ADMIN_CONSOLE_HTML = """
                             <div class="algorithm-tag active" onclick="selectAlgorithm('RSA')" id="algo-RSA">
                                 🔒 RSA-2048
                             </div>
-                            <div class="algorithm-tag pqc" onclick="selectAlgorithm('FALCON')" id="algo-FALCON">
-                                🦅 FALCON-512
+                            <div class="algorithm-tag pqc" onclick="selectAlgorithm('FALCON128')" id="algo-FALCON128">
+                                🦅 FALCON-128
                             </div>
                             <div class="algorithm-tag pqc" onclick="selectAlgorithm('DILITHIUM')" id="algo-DILITHIUM">
                                 💎 Dilithium2
@@ -828,7 +845,9 @@ ADMIN_CONSOLE_HTML = """
     </div>
     
     <script>
-        const API_BASE = 'https://iamsmartgate-backend.onrender.com';
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? `http://${window.location.hostname}:5000`
+            : 'https://iamsmartgate-backend.onrender.com';
         let currentTabScroll = 0;
         
         function scrollTabs(direction) {
@@ -856,6 +875,21 @@ ADMIN_CONSOLE_HTML = """
             if (tabName === 'all-passes') loadAllPasses();
             if (tabName === 'logs') loadAuditLogs();
             if (tabName === 'hsm') loadQRPayloads();
+            if (tabName === 'control') loadControlPanel();
+        }
+        
+        async function loadControlPanel() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/system-status`);
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                const status = await res.json();
+                const method = status.signature_method || 'FALCON-128';
+                updateSignatureButtons(method);
+            } catch (err) {
+                console.error('Error loading control panel:', err);
+            }
         }
         
         async function loadDashboard() {
@@ -872,10 +906,24 @@ ADMIN_CONSOLE_HTML = """
                 const banner = document.getElementById('system-status-banner');
                 if (status.global_pause) {
                     banner.className = 'system-status system-paused';
-                    banner.textContent = '⏸️ System Paused';
+                    banner.textContent = '⏸️ Closed-Loop Security System Paused';
                 } else {
                     banner.className = 'system-status system-active';
-                    banner.textContent = '✅ System Active';
+                    banner.textContent = '✅ Closed-Loop Security System Active';
+                }
+                
+                // Update signature method display
+                const sigMethod = status.signature_method || 'FALCON-128';
+                const sigDisplay = document.getElementById('dashboard-signature-method');
+                const postQuantumText = document.getElementById('post-quantum-text');
+                if (sigMethod === 'RSA-2048') {
+                    sigDisplay.innerHTML = '🔒 Classic RSA-2048';
+                    sigDisplay.parentElement.parentElement.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
+                    postQuantumText.style.display = 'none';
+                } else {
+                    sigDisplay.innerHTML = '🦅 Quantum FALCON-128';
+                    sigDisplay.parentElement.parentElement.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)';
+                    postQuantumText.style.display = 'block';
                 }
                 
                 // Update stats cards
@@ -987,13 +1035,18 @@ ADMIN_CONSOLE_HTML = """
                 const data = await res.json();
                 
                 const tbody = document.getElementById('all-passes-tbody');
-                tbody.innerHTML = data.passes.map(pass => `
+                tbody.innerHTML = data.passes.map(pass => {
+                    const sigMethod = pass.signature_method || 'RSA-2048';
+                    const sigIcon = sigMethod === 'FALCON-128' ? '🦅' : '🔒';
+                    const sigColor = sigMethod === 'FALCON-128' ? '#8b5cf6' : '#6b7280';
+                    return `
                     <tr>
                         <td>${pass.pass_id}</td>
                         <td>${pass.iamsmart_id}</td>
                         <td>${pass.site_id}</td>
                         <td>${pass.purpose_id}</td>
                         <td><span class="status status-${pass.status.toLowerCase().replace(' ', '')}">${pass.status}</span></td>
+                        <td><span style="background: ${sigColor}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; white-space: nowrap;">${sigIcon} ${sigMethod}</span></td>
                         <td>${new Date(pass.visit_date_time).toLocaleString()}</td>
                         <td>
                             ${pass.status === 'Pass' && !pass.revoked_flag ? 
@@ -1001,7 +1054,7 @@ ADMIN_CONSOLE_HTML = """
                                 : '-'}
                         </td>
                     </tr>
-                `).join('');
+                `}).join('');
             } catch (err) {
                 console.error('Error loading all passes:', err);
             }
@@ -1119,6 +1172,47 @@ ADMIN_CONSOLE_HTML = """
             }
         }
         
+        async function setSignatureMethod(method) {
+            if (!confirm(`Change QR signature method to ${method}?\n\nThis will affect all newly approved passes.`)) return;
+            try {
+                const res = await fetch(`${API_BASE}/admin/set-signature-method`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ method })
+                });
+                
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
+                }
+                
+                const data = await res.json();
+                alert(data.message || 'Signature method updated successfully');
+                loadDashboard();
+                updateSignatureButtons(method);
+            } catch (err) {
+                console.error('Signature method error:', err);
+                alert('Error: ' + err.message);
+            }
+        }
+        
+        function updateSignatureButtons(method) {
+            const rsaBtn = document.getElementById('sig-rsa-btn');
+            const falconBtn = document.getElementById('sig-falcon-btn');
+            
+            if (method === 'RSA-2048') {
+                rsaBtn.style.background = '#4b5563';
+                rsaBtn.style.fontWeight = 'bold';
+                falconBtn.style.background = '#a78bfa';
+                falconBtn.style.fontWeight = 'normal';
+            } else {
+                rsaBtn.style.background = '#9ca3af';
+                rsaBtn.style.fontWeight = 'normal';
+                falconBtn.style.background = '#7c3aed';
+                falconBtn.style.fontWeight = 'bold';
+            }
+        }
+        
         async function registerGate(event) {
             event.preventDefault();
             const tabletId = document.getElementById('tablet-id').value;
@@ -1166,18 +1260,18 @@ ADMIN_CONSOLE_HTML = """
                 isPQC: false,
                 canFitInQR: true
             },
-            'FALCON': {
-                name: 'FALCON-512',
-                shortName: 'FALCON-512',
-                signatureSize: 666,
+            'FALCON128': {
+                name: 'MM-Falcon-128 (IronCAP)',
+                shortName: 'FALCON-128',
+                signatureSize: 690,
                 payloadSize: 950,
-                qrVersion: 21,
-                qrBlocks: 101,
-                totalDots: 10201,
-                description: 'NIST PQC - Compact lattice-based signature',
+                qrVersion: 26,
+                qrBlocks: 121,
+                totalDots: 14641,
+                description: 'Quantum-Safe NIST PQC - Compact lattice-based signature (IronCAP variant)',
                 isPQC: true,
                 canFitInQR: true,
-                warning: 'Large QR code - may be difficult to scan'
+                usesAPI: true
             },
             'DILITHIUM': {
                 name: 'CRYSTALS-Dilithium2',
@@ -1246,6 +1340,9 @@ ADMIN_CONSOLE_HTML = """
                             const hasSignature = pass.qr_signature && pass.qr_signature !== null;
                             const statusBadge = pass.used_flag ? '✓ USED' : pass.status;
                             const statusColor = pass.used_flag ? '#48bb78' : '#4DB8A8';
+                            const sigMethod = pass.signature_method || 'RSA-2048';
+                            const sigIcon = sigMethod === 'FALCON-128' ? '🦅' : '🔒';
+                            const sigColor = sigMethod === 'FALCON-128' ? '#8b5cf6' : '#6b7280';
                             
                             return `
                                 <div class="payload-log-item" onclick="selectPayload('${pass.pass_id}', '${timestamp}', \`${signature}\`, ${index})">
@@ -1266,9 +1363,12 @@ ADMIN_CONSOLE_HTML = """
                                     <div style="font-family: 'Courier New', monospace; font-size: 0.75em; color: ${hasSignature ? '#718096' : '#f56565'}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                         <strong>Signature:</strong> ${hasSignature ? signature.substring(0, 50) + '...' : '⚠️ ' + signature}
                                     </div>
-                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px;">
                                         <span style="background: #4DB8A8; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.75em;">
                                             ${pass.iamsmart_id || 'Unknown User'}
+                                        </span>
+                                        <span style="background: ${sigColor}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.75em;">
+                                            ${sigIcon} ${sigMethod}
                                         </span>
                                         <span style="background: ${statusColor}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.75em;">
                                             ${statusBadge}
@@ -1326,7 +1426,70 @@ ADMIN_CONSOLE_HTML = """
             displayQRCode(selectedPayload, passId, timestamp, signature);
         }
         
-        function displayQRCode(payload, passId, timestamp, signature) {
+        // Falcon API Integration Functions
+        async function callFalconAPI(endpoint, method = 'POST', data = {}) {
+            const url = `https://${endpoint}-kez6dpnjlq-uc.a.run.app`;
+            try {
+                const options = {
+                    method: method,
+                    headers: method === 'POST' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}
+                };
+                
+                if (method === 'POST' && Object.keys(data).length > 0) {
+                    options.body = new URLSearchParams(data).toString();
+                }
+                
+                const response = await fetch(url, options);
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error(`Falcon API Error (${endpoint}):`, error);
+                throw error;
+            }
+        }
+        
+        async function generateFalconSignature(passId, timestamp) {
+            try {
+                // Default HSM configuration from FALCON_QR_API_FLOW.md
+                const hsmConfig = {
+                    slot: '1654338351',
+                    pin: '1234',  // This should be secured/configured properly
+                    id: '0128600B',
+                    mechanism: 'ckm-icc-shake256-mm-falcon'
+                };
+                
+                // 1. Create message with p and t fields
+                const message = JSON.stringify({ p: passId, t: timestamp });
+                
+                // 2. Write message to HSM
+                await callFalconAPI('writemessage', 'POST', { message: message });
+                
+                // 3. Hash the message
+                await callFalconAPI('hashmessage', 'POST', {});
+                
+                // 4. Sign the hash
+                await callFalconAPI('signmessage', 'POST', {
+                    slot: hsmConfig.slot,
+                    pin: hsmConfig.pin,
+                    id: hsmConfig.id,
+                    mechanism: hsmConfig.mechanism
+                });
+                
+                // 5. Read the signature
+                const sigResult = await callFalconAPI('readsignature', 'GET', {});
+                
+                if (sigResult && sigResult.content) {
+                    return sigResult.content; // Returns hex signature
+                } else {
+                    throw new Error('No signature content received from API');
+                }
+            } catch (error) {
+                console.error('Error generating Falcon signature:', error);
+                throw error;
+            }
+        }
+        
+        async function displayQRCode(payload, passId, timestamp, signature) {
             // Hide placeholder, show QR code
             document.getElementById('hsm-qr-placeholder').style.display = 'none';
             document.getElementById('hsm-qr-code').style.display = 'block';
@@ -1394,6 +1557,60 @@ ADMIN_CONSOLE_HTML = """
                             <div style="font-size: 2em; margin-bottom: 10px;">⚠️</div>
                             <div>Failed to generate QR code</div>
                             <div style="font-size: 0.85em; margin-top: 5px;">${error.message}</div>
+                        </div>
+                    `;
+                }
+            } else if (selectedAlgorithm === 'FALCON128') {
+                // FALCON-128: Generate signature using Falcon API
+                try {
+                    // Show loading indicator
+                    qrContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #4DB8A8;">
+                            <div style="font-size: 3em; margin-bottom: 15px;">⏳</div>
+                            <div style="font-size: 1.1em; font-weight: 600;">Generating Falcon Signature...</div>
+                            <div style="font-size: 0.9em; margin-top: 10px; color: #718096;">Calling HSM API</div>
+                        </div>
+                    `;
+                    
+                    // Call Falcon API to generate signature with p and t
+                    const falconSignatureHex = await generateFalconSignature(passId, timestamp);
+                    
+                    // Convert hex signature to base64 for more compact encoding
+                    actualSignature = hexToBase64(falconSignatureHex);
+                    
+                    // Create payload with p, t, and s (same structure as RSA-2048)
+                    const qrPayload = JSON.stringify({
+                        p: passId,
+                        t: timestamp,
+                        s: actualSignature
+                    });
+                    
+                    // Clear loading indicator
+                    qrContainer.innerHTML = '';
+                    
+                    // Generate QR code Version 26 with Low error correction (as per QR_CODE_26L_121x121_FALCON128_SUMMARY.md)
+                    new QRCode(qrContainer, {
+                        text: qrPayload,
+                        width: 300,
+                        height: 300,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.L,  // Low (7%) error correction
+                        version: 26  // Force Version 26 (121×121 blocks)
+                    });
+                    
+                    // Purple border for PQC is applied via CSS class 'pqc-qr'
+                } catch (error) {
+                    console.error('Falcon signature generation error:', error);
+                    qrContainer.innerHTML = `
+                        <div style="color: #f56565; text-align: center; padding: 40px;">
+                            <div style="font-size: 3em; margin-bottom: 15px;">⚠️</div>
+                            <div style="font-size: 1.1em; font-weight: 600; margin-bottom: 10px;">Falcon Signature Failed</div>
+                            <div style="font-size: 0.9em; color: #718096; margin-bottom: 15px;">Could not connect to HSM API</div>
+                            <div style="font-size: 0.85em; color: #4a5568; padding: 15px; background: #fee2e2; border-radius: 8px; text-align: left;">
+                                <strong>Error:</strong> ${error.message}<br>
+                                <strong>Note:</strong> Ensure HSM API endpoints are accessible
+                            </div>
                         </div>
                     `;
                 }
@@ -1479,17 +1696,18 @@ ADMIN_CONSOLE_HTML = """
             }
             
             // Show algorithm info with prominent size indicator
-            const isDummy = selectedAlgorithm !== 'RSA';
+            const isDummy = selectedAlgorithm !== 'RSA' && selectedAlgorithm !== 'FALCON128';
+            const isRealFalcon = selectedAlgorithm === 'FALCON128';
             const infoClass = isDummy ? 'algorithm-info dummy' : 'algorithm-info';
             const sizeMultiplier = (algo.signatureSize / 256).toFixed(2);
-            const sizeColor = isDummy ? '#f59e0b' : '#4DB8A8';
+            const sizeColor = isDummy ? '#f59e0b' : (isRealFalcon ? '#8b5cf6' : '#4DB8A8');
             
             const warningColor = !algo.canFitInQR ? '#dc2626' : (algo.warning ? '#f59e0b' : sizeColor);
             const statusIcon = !algo.canFitInQR ? '❌' : (algo.warning ? '⚠️' : (isDummy ? '⚠️' : '✓'));
             
             document.getElementById('hsm-algorithm-info').innerHTML = `
                 <div class="${infoClass}">
-                    ${!algo.canFitInQR ? `<div style="color: #dc2626; font-weight: 600; margin-bottom: 8px;">${statusIcon} CANNOT FIT IN QR CODE</div>` : (isDummy ? `<div style="color: #f59e0b; font-weight: 600; margin-bottom: 8px;">${statusIcon} DEMONSTRATION - Simulated PQC Signature</div>` : '<div style="color: #4DB8A8; font-weight: 600; margin-bottom: 8px;">✓ OPTIMIZED - Base64 encoding + Low error correction</div>')}
+                    ${!algo.canFitInQR ? `<div style="color: #dc2626; font-weight: 600; margin-bottom: 8px;">${statusIcon} CANNOT FIT IN QR CODE</div>` : (isDummy ? `<div style="color: #f59e0b; font-weight: 600; margin-bottom: 8px;">${statusIcon} DEMONSTRATION - Simulated PQC Signature</div>` : (isRealFalcon ? '<div style="color: #8b5cf6; font-weight: 600; margin-bottom: 8px;">🦅 QUANTUM-SAFE - Real Falcon signature via HSM API</div>' : '<div style="color: #4DB8A8; font-weight: 600; margin-bottom: 8px;">✓ OPTIMIZED - Base64 encoding + Low error correction</div>'))}
                     <div style="font-weight: 600; color: #2d3748; margin-bottom: 5px;">Algorithm: ${algo.name}</div>
                     <div style="font-size: 0.9em; color: #4a5568; margin-bottom: 10px;">${algo.description}</div>
                     
@@ -1522,7 +1740,8 @@ ADMIN_CONSOLE_HTML = """
                     </div>
                     
                     ${isDummy && algo.canFitInQR ? '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 0.85em; color: #718096;"><strong>Note:</strong> This is a visual representation scaled to show relative QR code size. </div>' : ''}
-                    ${!isDummy ? '<div style="font-size: 0.85em; color: #4a5568; margin-top: 5px;">✓ Actual signature from database - Optimized for smallest QR code (~40% size reduction vs High error correction + hex encoding)</div>' : ''}
+                    ${isRealFalcon ? '<div style="font-size: 0.85em; color: #4a5568; margin-top: 5px;">✓ Real-time Falcon signature generated via IronCAP HSM API - QR Version 26 (121×121 blocks)</div>' : ''}
+                    ${!isDummy && !isRealFalcon ? '<div style="font-size: 0.85em; color: #4a5568; margin-top: 5px;">✓ Actual signature from database - Optimized for smallest QR code (~40% size reduction vs High error correction + hex encoding)</div>' : ''}
                 </div>
             `;
             
@@ -1613,6 +1832,9 @@ ADMIN_CONSOLE_HTML = """
 def create_admin_app():
     """Create admin console Flask app"""
     app = Flask(__name__)
+    
+    # Enable CORS for all origins
+    CORS(app, resources={r"/*": {"origins": "*"}})
     
     @app.route('/')
     def index():
