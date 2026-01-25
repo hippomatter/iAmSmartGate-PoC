@@ -8789,3 +8789,176 @@ AttributeError: 'User' object has no attribute 'registered_timestamp'
 2026-01-24 23:33:09,958 [INFO] werkzeug: 127.0.0.1 - - [24/Jan/2026 23:33:09] "GET /admin/statistics HTTP/1.1" 200 -
 2026-01-24 23:33:13,815 [INFO] werkzeug: 127.0.0.1 - - [24/Jan/2026 23:33:13] "GET /admin/system-status HTTP/1.1" 200 -
 2026-01-24 23:33:13,864 [INFO] werkzeug: 127.0.0.1 - - [24/Jan/2026 23:33:13] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:08:24,527 [INFO] crypto_utils: Loaded 6 keys from HSM storage
+2026-01-25 22:08:24,557 [INFO] __main__: Database initialized
+2026-01-25 22:08:24,557 [DEBUG] tzlocal: Looking up time zone info from registry
+2026-01-25 22:08:24,661 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-25 22:08:24,699 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-25 22:08:24,699 [INFO] apscheduler.scheduler: Added job "Check expired passes" to job store "default"
+2026-01-25 22:08:24,715 [INFO] apscheduler.scheduler: Added job "Clean up old audit logs" to job store "default"
+2026-01-25 22:08:24,715 [INFO] apscheduler.scheduler: Scheduler started
+2026-01-25 22:08:24,715 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-01-25 22:08:24,715 [INFO] background_jobs: [BACKGROUND] Background jobs started
+2026-01-25 22:08:24,715 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-01-25 22:13:24.661629+08:00 (in 299.946230 seconds)
+2026-01-25 22:08:24,715 [INFO] __main__: iAmSmartGate Backend Server started
+2026-01-25 22:08:24,780 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.99.165:5000
+2026-01-25 22:08:24,780 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-01-25 22:08:24,794 [INFO] werkzeug:  * Restarting with stat
+2026-01-25 22:08:29,644 [INFO] crypto_utils: Loaded 6 keys from HSM storage
+2026-01-25 22:08:29,644 [INFO] __main__: Database initialized
+2026-01-25 22:08:29,660 [DEBUG] tzlocal: Looking up time zone info from registry
+2026-01-25 22:08:29,677 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-25 22:08:29,692 [INFO] apscheduler.scheduler: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-25 22:08:29,692 [INFO] apscheduler.scheduler: Added job "Check expired passes" to job store "default"
+2026-01-25 22:08:29,692 [INFO] apscheduler.scheduler: Added job "Clean up old audit logs" to job store "default"
+2026-01-25 22:08:29,692 [INFO] apscheduler.scheduler: Scheduler started
+2026-01-25 22:08:29,692 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-01-25 22:08:29,692 [INFO] background_jobs: [BACKGROUND] Background jobs started
+2026-01-25 22:08:29,692 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-01-25 22:13:29.677554+08:00 (in 299.984870 seconds)
+2026-01-25 22:08:29,692 [INFO] __main__: iAmSmartGate Backend Server started
+2026-01-25 22:08:29,726 [WARNING] werkzeug:  * Debugger is active!
+2026-01-25 22:08:29,740 [INFO] werkzeug:  * Debugger PIN: 915-450-734
+2026-01-25 22:08:30,590 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:08:30] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:08:30,662 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:08:30] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:08:39,998 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:08:39] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:08:40,014 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:08:40] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:08:50,004 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:08:50] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:08:50,018 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:08:50] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:00,001 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:00] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:09:00,034 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:00] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:10,012 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:10] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:10,012 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:10] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:09:19,999 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:19] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:09:20,025 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:20] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:29,989 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:29] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:09:30,005 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:30] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:39,995 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:39] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:09:40,009 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:40] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:50,503 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:50] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:09:50,519 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:50] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:09:58,360 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:58] "OPTIONS /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:09:58,734 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:09:58] "GET /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:10:00,480 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:00] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:10:00,496 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:00] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:10:01,558 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:01] "OPTIONS /api/login HTTP/1.1" 200 -
+2026-01-25 22:10:01,883 [INFO] api_routes: [API] Login request for user: USER
+2026-01-25 22:10:01,883 [INFO] dummy_integrations: [DUMMY iAmSmart] Authenticating user: USER
+2026-01-25 22:10:02,391 [INFO] dummy_integrations: [DUMMY iAmSmart] Authentication SUCCESS for USER
+2026-01-25 22:10:02,560 [INFO] api_routes: [AUDIT] login: SUCCESS - Device: DEVICE_8BOM0AP19
+2026-01-25 22:10:02,575 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:02] "POST /api/login HTTP/1.1" 200 -
+2026-01-25 22:10:02,590 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:02] "GET /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:10:02,905 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:02] "GET /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:10:10,503 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:10] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:10:10,517 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:10] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:10:20,418 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:20] "OPTIONS /api/gate-login HTTP/1.1" 200 -
+2026-01-25 22:10:20,514 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:20] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:10:20,529 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:20] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:10:20,665 [DEBUG] security_middleware: [DEV] Localhost gate API access to /api/gate-login (HTTP allowed)
+2026-01-25 22:10:20,707 [INFO] api_routes: [API] Gate login request for: GATE001
+2026-01-25 22:10:20,707 [INFO] dummy_integrations: [DUMMY iAmSmart] Authenticating user: GATE001
+2026-01-25 22:10:21,209 [INFO] dummy_integrations: [DUMMY iAmSmart] Authentication SUCCESS for GATE001
+2026-01-25 22:10:21,213 [INFO] dummy_integrations: [DUMMY GPS] Validating location for GATE001
+2026-01-25 22:10:21,213 [DEBUG] dummy_integrations: [DUMMY GPS] Reported: 22.3193,114.1694, Expected: 22.3193,114.1694
+2026-01-25 22:10:21,213 [INFO] dummy_integrations: [DUMMY GPS] Exact match - VALID
+2026-01-25 22:10:21,231 [INFO] api_routes: [AUDIT] login: SUCCESS - GPS: 22.3193,114.1694
+2026-01-25 22:10:21,231 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:21] "POST /api/gate-login HTTP/1.1" 200 -
+2026-01-25 22:10:30,509 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:30] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:10:30,522 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:30] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:10:40,508 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:40] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:10:40,528 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:40] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:10:57,494 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:57] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:10:57,510 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:10:57] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:11:57,506 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:11:57] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:11:57,522 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:11:57] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:12:57,501 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:12:57] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:12:57,524 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:12:57] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:13:24,700 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-01-25 22:13:24,762 [INFO] apscheduler.executors.default: Running job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:13:24 CST)" (scheduled at 2026-01-25 22:13:24.661629+08:00)
+2026-01-25 22:13:24,762 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-01-25 22:18:24.661629+08:00 (in 299.899532 seconds)
+2026-01-25 22:13:24,996 [DEBUG] background_jobs: [BACKGROUND] No passes to expire
+2026-01-25 22:13:24,996 [INFO] apscheduler.executors.default: Job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:18:24 CST)" executed successfully
+2026-01-25 22:13:29,690 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-01-25 22:13:29,719 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-01-25 22:18:29.677554+08:00 (in 299.957724 seconds)
+2026-01-25 22:13:29,719 [INFO] apscheduler.executors.default: Running job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:18:29 CST)" (scheduled at 2026-01-25 22:13:29.677554+08:00)
+2026-01-25 22:13:29,815 [DEBUG] background_jobs: [BACKGROUND] No passes to expire
+2026-01-25 22:13:29,815 [INFO] apscheduler.executors.default: Job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:18:29 CST)" executed successfully
+2026-01-25 22:13:38,633 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:38] "OPTIONS /api/apply-pass HTTP/1.1" 200 -
+2026-01-25 22:13:38,901 [INFO] api_routes: [API] Pass application from user: USER
+2026-01-25 22:13:39,028 [INFO] api_routes: [AUDIT] application: SUBMITTED - Site: SITE002, Purpose: PURP002
+2026-01-25 22:13:39,028 [INFO] api_routes: [API] Pass created: PASSED5CFBB71FE3
+2026-01-25 22:13:39,044 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:39] "[35m[1mPOST /api/apply-pass HTTP/1.1[0m" 201 -
+2026-01-25 22:13:42,714 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:42] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:13:42,996 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:42] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:13:48,343 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:48] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:13:49,676 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:49] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:13:52,245 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:52] "OPTIONS /admin/approve-pass/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:13:52,545 [INFO] admin_routes: [ADMIN] Pass approved: PASSED5CFBB71FE3
+2026-01-25 22:13:52,549 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:52] "POST /admin/approve-pass/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:13:53,727 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:53] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:13:54,032 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:54] "GET /admin/system-status HTTP/1.1" 200 -
+2026-01-25 22:13:54,050 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:13:54] "GET /admin/statistics HTTP/1.1" 200 -
+2026-01-25 22:14:00,489 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:00] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:14:00,755 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:00] "OPTIONS /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:14:00,950 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:00] "GET /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:14:03,311 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:03] "GET /api/my-passes HTTP/1.1" 200 -
+2026-01-25 22:14:10,496 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:10] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:14:20,487 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:20] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:14:30,505 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:30] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:14:40,504 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:40] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:14:50,476 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:14:50] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:15:51,987 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:15:51] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:16:52,502 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:16:52] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:16:56,574 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:16:56] "OPTIONS /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:16:57,017 [DEBUG] crypto_utils: Signed data for key user_USER
+2026-01-25 22:16:57,070 [INFO] api_routes: [API] QR code generated for pass: PASSED5CFBB71FE3 (method: FALCON-128)
+2026-01-25 22:16:57,072 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:16:57] "GET /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:16:58,238 [DEBUG] crypto_utils: Signed data for key user_USER
+2026-01-25 22:16:58,253 [INFO] api_routes: [API] QR code generated for pass: PASSED5CFBB71FE3 (method: FALCON-128)
+2026-01-25 22:16:58,254 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:16:58] "GET /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:17:00,522 [DEBUG] crypto_utils: Signed data for key user_USER
+2026-01-25 22:17:00,538 [INFO] api_routes: [API] QR code generated for pass: PASSED5CFBB71FE3 (method: FALCON-128)
+2026-01-25 22:17:00,538 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:17:00] "GET /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:17:13,998 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:17:13] "OPTIONS /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:17:14,251 [DEBUG] crypto_utils: Signed data for key user_USER
+2026-01-25 22:17:14,263 [INFO] api_routes: [API] QR code generated for pass: PASSED5CFBB71FE3 (method: FALCON-128)
+2026-01-25 22:17:14,263 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:17:14] "GET /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:17:55,104 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:17:55] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:18:24,751 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-01-25 22:18:24,794 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-01-25 22:23:24.661629+08:00 (in 299.867139 seconds)
+2026-01-25 22:18:24,799 [INFO] apscheduler.executors.default: Running job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:23:24 CST)" (scheduled at 2026-01-25 22:18:24.661629+08:00)
+2026-01-25 22:18:24,943 [DEBUG] background_jobs: [BACKGROUND] No passes to expire
+2026-01-25 22:18:24,943 [INFO] apscheduler.executors.default: Job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:23:24 CST)" executed successfully
+2026-01-25 22:18:29,705 [DEBUG] apscheduler.scheduler: Looking for jobs to run
+2026-01-25 22:18:29,724 [DEBUG] apscheduler.scheduler: Next wakeup is due at 2026-01-25 22:23:29.677554+08:00 (in 299.953102 seconds)
+2026-01-25 22:18:29,729 [INFO] apscheduler.executors.default: Running job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:23:29 CST)" (scheduled at 2026-01-25 22:18:29.677554+08:00)
+2026-01-25 22:18:29,747 [DEBUG] background_jobs: [BACKGROUND] No passes to expire
+2026-01-25 22:18:29,748 [INFO] apscheduler.executors.default: Job "Check expired passes (trigger: interval[0:05:00], next run at: 2026-01-25 22:23:29 CST)" executed successfully
+2026-01-25 22:18:54,494 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:18:54] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:19:55,492 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:19:55] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:19:58,480 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:19:58] "OPTIONS /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:19:58,937 [DEBUG] crypto_utils: Signed data for key user_USER
+2026-01-25 22:19:59,000 [INFO] api_routes: [API] QR code generated for pass: PASSED5CFBB71FE3 (method: FALCON-128)
+2026-01-25 22:19:59,000 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:19:59] "GET /api/get-qr/PASSED5CFBB71FE3 HTTP/1.1" 200 -
+2026-01-25 22:20:23,553 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:20:23] "OPTIONS /api/scan-qr HTTP/1.1" 200 -
+2026-01-25 22:20:23,636 [DEBUG] security_middleware: [DEV] Localhost gate API access to /api/scan-qr (HTTP allowed)
+2026-01-25 22:20:23,667 [INFO] api_routes: [API] QR scan by gate: GATE001
+2026-01-25 22:20:23,793 [INFO] api_routes: [API] Verifying signature with method: FALCON-128
+2026-01-25 22:20:23,793 [INFO] api_routes: [API] FALCON-128 signature verification (pass: PASSED5CFBB71FE3)
+2026-01-25 22:20:24,003 [INFO] api_routes: [AUDIT] scan: PASS - Site: SITE002, Purpose: PURP002
+2026-01-25 22:20:24,003 [INFO] api_routes: [API] Access granted for pass: PASSED5CFBB71FE3
+2026-01-25 22:20:24,011 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:20:24] "POST /api/scan-qr HTTP/1.1" 200 -
+2026-01-25 22:20:53,624 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:20:53] "OPTIONS /api/scan-qr HTTP/1.1" 200 -
+2026-01-25 22:20:53,664 [DEBUG] security_middleware: [DEV] Localhost gate API access to /api/scan-qr (HTTP allowed)
+2026-01-25 22:20:53,686 [INFO] api_routes: [API] QR scan by gate: GATE001
+2026-01-25 22:20:53,809 [INFO] api_routes: [API] Verifying signature with method: FALCON-128
+2026-01-25 22:20:53,809 [INFO] api_routes: [API] FALCON-128 signature verification (pass: PASSED5CFBB71FE3)
+2026-01-25 22:20:53,871 [INFO] api_routes: [AUDIT] scan: NOT_APPROVED - Status: Used
+2026-01-25 22:20:53,889 [WARNING] api_routes: [API] Pass not approved: PASSED5CFBB71FE3 (status: Used)
+2026-01-25 22:20:53,892 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:20:53] "POST /api/scan-qr HTTP/1.1" 200 -
+2026-01-25 22:21:06,521 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:21:06] "GET /admin/pending-passes HTTP/1.1" 200 -
+2026-01-25 22:21:10,095 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:21:10] "GET /admin/all-passes HTTP/1.1" 200 -
+2026-01-25 22:21:10,324 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:21:10] "GET /admin/all-passes HTTP/1.1" 200 -
+2026-01-25 22:21:14,235 [INFO] werkzeug: 127.0.0.1 - - [25/Jan/2026 22:21:14] "GET /admin/all-passes HTTP/1.1" 200 -

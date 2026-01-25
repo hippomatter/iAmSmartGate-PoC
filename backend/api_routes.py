@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from models import db, User, Gate, Pass, AuditLog, SystemState
 from crypto_utils import hsm
 from dummy_integrations import dummy_iamsmart_authenticate, dummy_validate_gps
+from security_middleware import require_https_for_gates
 import jwt
 import uuid
 import json
@@ -107,8 +108,9 @@ def login():
         return jsonify({'error': str(e)}), 500
 
 @api_bp.route('/gate-login', methods=['POST'])
+@require_https_for_gates()
 def gate_login():
-    """Gate login endpoint"""
+    """Gate login endpoint (HTTPS required in production)"""
     try:
         data = request.json
         tablet_id = data.get('tablet_id')
@@ -296,8 +298,9 @@ def get_qr(pass_id):
         return jsonify({'error': str(e)}), 500
 
 @api_bp.route('/scan-qr', methods=['POST'])
+@require_https_for_gates()
 def scan_qr():
-    """Validate scanned QR code"""
+    """Validate scanned QR code (HTTPS required in production)"""
     try:
         data = request.json
         token = request.headers.get('Authorization', '').replace('Bearer ', '')

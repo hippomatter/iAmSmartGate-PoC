@@ -284,29 +284,34 @@ SQLite database with tables:
 
 ## API Endpoints
 
-### User APIs (`/api`)
-- `POST /login` - User authentication
-- `POST /gate-login` - Gate authentication
-- `POST /apply-pass` - Apply for pass
-- `GET /my-passes` - Get user's passes
-- `GET /get-qr/<pass_id>` - Generate QR code
-- `POST /scan-qr` - Validate QR code
-- `GET /user-info` - Get user info
-- `GET /sites` - Get available sites
-- `GET /purposes` - Get available purposes
+### Wallet APIs (`/api`)
+- `POST /login` - User authentication with iAmSmart eID
+- `POST /apply-pass` - Apply for site visit pass
+- `GET /my-passes` - Get user's passes (active/pending/revoked)
+- `GET /get-qr/<pass_id>` - Generate time-limited signed QR code
+- `GET /user-info` - Get user profile information
+- `GET /sites` - Get available access sites
+- `GET /purposes` - Get available visit purposes
+
+### Gate APIs (`/api`)
+- `POST /gate-login` - Gate reader authentication
+- `POST /scan-qr` - Validate and verify QR code signature
+- `GET /sites` - Get site information
 
 ### Admin APIs (`/admin`)
-- `GET /pending-passes` - Get pending applications
-- `GET /all-passes` - Get all passes (with filters)
-- `POST /approve-pass/<pass_id>` - Approve pass
-- `POST /reject-pass/<pass_id>` - Reject pass
-- `POST /revoke-pass/<pass_id>` - Revoke pass
-- `POST /pause-system` - Pause/resume system
-- `POST /pause-site` - Pause/resume site
-- `GET /system-status` - Get system status
-- `GET /statistics` - Get system statistics
-- `GET /audit-logs` - Get audit logs
-- `POST /register-gate` - Register new gate
+- `GET /pending-passes` - Get pending pass applications
+- `GET /all-passes` - Get all passes with filtering options
+- `POST /approve-pass/<pass_id>` - Approve pending pass
+- `POST /reject-pass/<pass_id>` - Reject pending pass
+- `POST /revoke-pass/<pass_id>` - Revoke active pass
+- `POST /set-signature-method` - Set QR signature method (RSA-2048/FALCON-128)
+- `POST /pause-system` - Pause/resume entire system
+- `POST /pause-site` - Pause/resume specific site
+- `GET /system-status` - Get system and signature method status
+- `GET /statistics` - Get system usage statistics
+- `GET /audit-logs` - Get audit trail logs
+- `POST /register-gate` - Register new gate reader
+- `GET /hsm/signature-logs` - Get quantum HSM signature logs
 
 ## License
 
